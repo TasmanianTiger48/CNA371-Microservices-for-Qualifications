@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "QualificationInterface": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
