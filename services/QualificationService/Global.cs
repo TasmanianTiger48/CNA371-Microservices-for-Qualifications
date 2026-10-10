@@ -1,3 +1,9 @@
 ﻿global using Microsoft.AspNetCore.Mvc;
-global using QualificationService.Models;
+global using QualificationService.Domain.Models;
 global using Microsoft.AspNetCore.Authorization;
+global using QualificationService.Domain.Enums;
+global using QualificationService.Domain.Ports;
+global using System.Text.Json;
+global using QualificationService.Contracts;
+global using QualificationService.Infrastructure.Repositories;
+global using QualificationService.Infrastructure.Extensions;

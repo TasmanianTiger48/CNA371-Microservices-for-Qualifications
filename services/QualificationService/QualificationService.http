@@ -1,6 +1,0 @@
-@QualificationService_HostAddress = http://localhost:5054
-
-GET {{QualificationService_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

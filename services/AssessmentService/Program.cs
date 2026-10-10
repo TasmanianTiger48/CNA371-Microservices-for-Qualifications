@@ -2,10 +2,21 @@ using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.LowercaseUrls = true;
+});
+
+//Services
+builder.Services.AddScoped<IAssessmentService, AssessmentService.Infrastructure.Services.AssessmentService>();
+
+//Repositories
+builder.Services.AddScoped<IAssessmentRepository, AssessmentRepository>();
+
+//Clients
+builder.Services.AddScoped<IQualificationServiceClient, QualificationServiceClient>();
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();

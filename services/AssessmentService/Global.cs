@@ -1,0 +1,5 @@
+﻿global using AssessmentService.Ports;
+global using Microsoft.AspNetCore.Mvc;
+global using AssessmentService.Infrastructure.Repositories;
+global using AssessmentService.Contracts;
+global using AssessmentService.Clients;

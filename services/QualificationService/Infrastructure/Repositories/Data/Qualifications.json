@@ -1,0 +1,182 @@
+[
+  {
+    "identifier": "3F21AAC4-4D6A-4A89-8399-1F9401E9AF9B",
+    "code": "DIT",
+    "name": "Diploma in Information Technology",
+    "pathways": [
+      {
+        "identifier": "DB21AAD5-65FF-44D5-8D42-1477EAA7488F",
+        "code": "DIT-NSC",
+        "name": "National Senior Certificate or equivalent",
+        "requirements": [
+          {
+            "type": "school_qualification",
+            "operator": "meets_minimum_admission_requirements",
+            "value": "diploma",
+            "description": "Must meet the minimum requirements for admission to a Diploma."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "identifier": "B0F1C2D3-E4F5-4678-89AB-C0D1E2F3A4B5",
+    "code": "BIT",
+    "name": "Bachelor of Information Technology",
+    "pathways": [
+      {
+        "identifier": "320A6F8F-1AD7-4752-BC35-47B9319960AD",
+        "code": "BIT-NSC-MATHS",
+        "name": "NSC with Mathematics",
+        "requirements": [
+          {
+            "type": "school_qualification",
+            "operator": "meets_minimum_admission_requirements",
+            "value": "degree",
+            "description": "Must meet the minimum degree-admission requirements."
+          },
+          {
+            "type": "subject_mark",
+            "subject": "pure_mathematics",
+            "operator": "greater_than_or_equal",
+            "value": 50,
+            "description": "Must achieve at least 50% in pure Mathematics."
+          }
+        ]
+      },
+      {
+        "identifier": "86D478A1-0EDD-4FD7-84AE-0BF4CC92E5ED",
+        "code": "BIT-BRIDGING",
+        "name": "Mathematics Bridging Course",
+        "requirements": [
+          {
+            "type": "bridging_course_mark",
+            "course": "itversity_mathematics",
+            "operator": "between_inclusive",
+            "minimum": 50,
+            "maximum": 69,
+            "description": "Must achieve 50% to 69% in the Belgium Campus iTversity Mathematics Bridging Course."
+          },
+          {
+            "type": "discretionary_approval",
+            "value": true,
+            "description": "Temporary Senate Discretionary Exemption is required."
+          }
+        ]
+      },
+      {
+        "identifier": "D988D05F-8BFD-4D27-9EC1-6AA68E39BB3A",
+        "code": "BIT-ADV-CERT",
+        "name": "Advanced Certificate in IT",
+        "requirements": [
+          {
+            "type": "prior_qualification",
+            "qualification_level": "advanced_certificate",
+            "field": "information_technology",
+            "description": "Must hold an Advanced Certificate in an IT field."
+          }
+        ]
+      },
+      {
+        "identifier": "A7C92E14-6B35-4F81-9D20-E5A13C7B6048",
+        "code": "BIT-DIPLOMA",
+        "name": "Diploma in IT",
+        "requirements": [
+          {
+            "type": "prior_qualification",
+            "qualification_level": "diploma",
+            "field": "information_technology",
+            "description": "Must hold a Diploma in an IT field."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "identifier": "8EE26061-0929-44AD-A20D-F703D6651D1B",
+    "code": "BCOMP",
+    "name": "Bachelor of Computing",
+    "pathways": [
+      {
+        "identifier": "C4A18E72-5D39-4B06-8F21-A9E7D3C56014",
+        "code": "BCOMP-NSC-MATHS",
+        "name": "NSC with Mathematics",
+        "requirements": [
+          {
+            "type": "school_qualification",
+            "operator": "meets_minimum_admission_requirements",
+            "value": "degree",
+            "description": "Must meet the minimum degree-admission requirements."
+          },
+          {
+            "type": "subject_mark",
+            "subject": "pure_mathematics",
+            "operator": "greater_than_or_equal",
+            "value": 50,
+            "description": "Must achieve at least 50% in pure Mathematics."
+          }
+        ]
+      },
+      {
+        "identifier": "EEE875C4-2AEA-4CD0-A727-D0B5CD6136BB",
+        "code": "BCOMP-BRIDGING",
+        "name": "Mathematics Bridging Course",
+        "requirements": [
+          {
+            "type": "bridging_course_mark",
+            "course": "itversity_mathematics",
+            "operator": "greater_than_or_equal",
+            "value": 70,
+            "description": "Must achieve at least 70% in the Belgium Campus iTversity Mathematics Bridging Course."
+          },
+          {
+            "type": "discretionary_approval",
+            "value": true,
+            "description": "Temporary Senate Discretionary Exemption is required."
+          }
+        ]
+      },
+      {
+        "identifier": "D0854FBC-97BF-4D6C-97CB-7D7CC373B276",
+        "code": "BCOMP-360-DIPLOMA",
+        "name": "360-credit Diploma",
+        "requirements": [
+          {
+            "type": "prior_qualification",
+            "qualification_level": "diploma",
+            "minimum_credits": 360,
+            "field": "information_technology",
+            "description": "Must hold a 360-credit Diploma in an IT field."
+          }
+        ]
+      },
+      {
+        "identifier": "E090B7B5-037A-43D8-90DE-6D73D0351CAA",
+        "code": "BCOMP-ADV-DIPLOMA",
+        "name": "Advanced Diploma",
+        "requirements": [
+          {
+            "type": "prior_qualification",
+            "qualification_level": "advanced_diploma",
+            "field": "information_technology",
+            "description": "Must hold an Advanced Diploma in an IT field."
+          }
+        ]
+      },
+      {
+        "identifier": "635B1D41-FCA0-4B0F-9E6E-5616D671255C",
+        "code": "BCOMP-BACHELOR",
+        "name": "360-credit Bachelor's Degree",
+        "requirements": [
+          {
+            "type": "prior_qualification",
+            "qualification_level": "bachelor_degree",
+            "minimum_credits": 360,
+            "field": "information_technology",
+            "description": "Must hold a 360-credit Bachelor's Degree in an IT field."
+          }
+        ]
+      }
+    ]
+  }
+]
