@@ -8,5 +8,5 @@ public class Qualification
 
     public string Name { get; set; } = string.Empty;
 
-    public List<QualificationAdmissionPathway> AdmissionPathways { get; set; } = new List<QualificationAdmissionPathway>();
+    public List<QualificationAdmissionPathway> Pathways { get; set; } = new List<QualificationAdmissionPathway>();
 }

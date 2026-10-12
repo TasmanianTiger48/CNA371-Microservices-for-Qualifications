@@ -2,11 +2,11 @@
 
 public class QualificationAdmissionPathway
 {
-    public required string Id { get; init; }
+    public Guid Identifier { get; init; }
 
-    public required string Name { get; init; }
+    public string Code { get; init; }
 
-    public required List<QualificationAdmissionPathwayRequirement> Requirements { get; init; }
+    public string Name { get; init; }
 
-    public bool RequiresDiscretionaryApproval { get; init; }
+    public List<QualificationAdmissionPathwayRequirement> Requirements { get; init; }
 }

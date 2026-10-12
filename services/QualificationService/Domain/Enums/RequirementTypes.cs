@@ -2,11 +2,12 @@
 
 public enum RequirementTypes
 {
-    MinimumQualificationLevel,
-    MinimumSubjectMark,
-    MarkRange,
-    RequiredPriorQualification,
-    MinimumCreditValue,
-    RequiredFieldOfStudy,
-    CompletionOfBridgingCourse
+    NationalSeniorCertificateOrEquivalent,
+    NationalSeniorCertificateOrEquivalentMark,
+    BridgingCourse,
+    HasBridgingCourseTemporaryExemption,
+    AdvancedDiploma,
+    Diploma,
+    BachelorDegree,
+
 }

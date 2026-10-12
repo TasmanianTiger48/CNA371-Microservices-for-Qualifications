@@ -2,19 +2,13 @@
 
 public class QualificationAdmissionPathwayRequirement
 {
-    public required string Id { get; init; }
+    public RequirementTypes Type { get; set; }
 
-    public required string Description { get; init; }
+    public string? SubjectTypeName { get; init; }
 
-    public required RequirementTypes Type { get; init; }
+    public decimal? Minimum { get; init; }
 
-    public bool IsMandatory { get; init; } = true;
+    public decimal? Maximum { get; init; }
 
-    public string? Subject { get; init; }
-
-    public decimal? MinimumValue { get; init; }
-
-    public decimal? MaximumValue { get; init; }
-
-    public string? ExpectedValue { get; init; }
+    public string Description { get; init; } = string.Empty;
 }

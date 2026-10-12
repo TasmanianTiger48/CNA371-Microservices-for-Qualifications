@@ -17,14 +17,80 @@ public class QualificationService : IQualificationService
 
         foreach (var qualification in qualifications)
         {
-            var isEligible = true;
-            results.Add(new QualificationAssessmentResponse
+            var anyPathwayEligible = false;
+            List<List<string>> missingRequirementsPerPathway = [];
+            foreach (var admissionPathway in qualification.Pathways)
             {
-                IsEligible = isEligible,
+                var isEligible = true;
+                var missingPathwayRequirements = new List<string>();
+                admissionPathway.Requirements
+                    .ForEach(requirement =>
+                    {
+                        switch (requirement.Type)
+                        {
+                            case RequirementTypes.NationalSeniorCertificateOrEquivalent:
+                                if (!request.HasNationalSeniorCertificateOrEquivalent)
+                                {
+                                    isEligible = false;
+                                    missingPathwayRequirements.Add(requirement.Description);
+                                }
+                                break;
+                            case RequirementTypes.NationalSeniorCertificateOrEquivalentMark:
+                                if (!request.ValidateNationalSeniorCertificateOrEquivalentMark(requirement))
+                                {
+                                    isEligible = false;
+                                    missingPathwayRequirements.Add(requirement.Description);
+                                }
+                                break;
+                            case RequirementTypes.BridgingCourse:
+                                if (!request.ValidateBridgingCourse(requirement))
+                                {
+                                    isEligible = false;
+                                    missingPathwayRequirements.Add(requirement.Description);
+                                }
+                                break;
+                            case RequirementTypes.HasBridgingCourseTemporaryExemption:
+                                if (!request.HasBridgingCourseTemporaryExemption)
+                                {
+                                    isEligible = false;
+                                    missingPathwayRequirements.Add(requirement.Description);
+                                }
+                                break;
+                            case RequirementTypes.Diploma:
+                            case RequirementTypes.AdvancedDiploma:
+                            case RequirementTypes.BachelorDegree:
+                                if (!request.ValidateCompletedQualification(requirement))
+                                {
+                                    isEligible = false;
+                                    missingPathwayRequirements.Add(requirement.Description);
+                                }
+                                break;
+
+                            default:
+                                throw new NotImplementedException($"Requirement type {requirement.Type} not implemented");
+                        }
+                    });
+
+                if (isEligible)
+                {
+                    anyPathwayEligible = true;
+                    break;
+                }
+                else
+                {
+                    missingRequirementsPerPathway.Add(missingPathwayRequirements);
+                }
+            }
+
+            var result = new QualificationAssessmentResponse
+            {
+                IsEligible = anyPathwayEligible,
                 QualificationIdentifier = qualification.Identifier,
                 QualificationCode = qualification.Code,
-                QualificationName = qualification.Name
-            });
+                QualificationName = qualification.Name,
+                ReasonsPerPathway = anyPathwayEligible ? [] : missingRequirementsPerPathway
+            };
+            results.Add(result);
         }
 
         return results;

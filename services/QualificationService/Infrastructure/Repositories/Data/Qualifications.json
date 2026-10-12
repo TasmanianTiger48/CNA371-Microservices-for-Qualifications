@@ -10,10 +10,8 @@
         "name": "National Senior Certificate or equivalent",
         "requirements": [
           {
-            "type": "school_qualification",
-            "operator": "meets_minimum_admission_requirements",
-            "value": "diploma",
-            "description": "Must meet the minimum requirements for admission to a Diploma."
+            "type": "NationalSeniorCertificateOrEquivalent",
+            "description": "Requires a National Senior Certificate or equivalent foreign qualification converted by SAQA."
           }
         ]
       }
@@ -30,17 +28,14 @@
         "name": "NSC with Mathematics",
         "requirements": [
           {
-            "type": "school_qualification",
-            "operator": "meets_minimum_admission_requirements",
-            "value": "degree",
-            "description": "Must meet the minimum degree-admission requirements."
+            "type": "NationalSeniorCertificateOrEquivalent",
+            "description": "Requires a National Senior Certificate or equivalent foreign qualification converted by SAQA."
           },
           {
-            "type": "subject_mark",
-            "subject": "pure_mathematics",
-            "operator": "greater_than_or_equal",
-            "value": 50,
-            "description": "Must achieve at least 50% in pure Mathematics."
+            "type": "NationalSeniorCertificateOrEquivalentMark",
+            "subjectTypeName": "Mathematics",
+            "minimum": 50,
+            "description": "Must achieve at least 50% in Mathematics."
           }
         ]
       },
@@ -50,43 +45,42 @@
         "name": "Mathematics Bridging Course",
         "requirements": [
           {
-            "type": "bridging_course_mark",
-            "course": "itversity_mathematics",
-            "operator": "between_inclusive",
+            "type": "BridgingCourse",
             "minimum": 50,
             "maximum": 69,
             "description": "Must achieve 50% to 69% in the Belgium Campus iTversity Mathematics Bridging Course."
           },
           {
-            "type": "discretionary_approval",
-            "value": true,
+            "type": "HasBridgingCourseTemporaryExemption",
             "description": "Temporary Senate Discretionary Exemption is required."
           }
         ]
       },
       {
-        "identifier": "D988D05F-8BFD-4D27-9EC1-6AA68E39BB3A",
-        "code": "BIT-ADV-CERT",
-        "name": "Advanced Certificate in IT",
+        "identifier": "87D478A1-0EDD-4FD7-84AE-0BF4CC92E5ED",
+        "code": "BIT-BRIDGING-PASS",
+        "name": "Mathematics Bridging Course",
         "requirements": [
           {
-            "type": "prior_qualification",
-            "qualification_level": "advanced_certificate",
-            "field": "information_technology",
-            "description": "Must hold an Advanced Certificate in an IT field."
+            "type": "BridgingCourse",
+            "minimum": 70,
+            "description": "Must achieve at least 70% in the Belgium Campus iTversity Mathematics Bridging Course."
           }
         ]
       },
       {
-        "identifier": "A7C92E14-6B35-4F81-9D20-E5A13C7B6048",
-        "code": "BIT-DIPLOMA",
-        "name": "Diploma in IT",
+        "identifier": "D988D05F-8BFD-4D27-9EC1-6AA68E39BB3A",
+        "code": "BIT-ADV-DIPLOMA",
+        "name": "Advanced Certificate or Diploma in IT",
         "requirements": [
           {
-            "type": "prior_qualification",
-            "qualification_level": "diploma",
-            "field": "information_technology",
-            "description": "Must hold a Diploma in an IT field."
+            "type": "AdvancedDiploma",
+            "description": "Must hold an Advanced Diploma in an IT field."
+          },
+          {
+            "type": "Diploma",
+            "minimum": 360,
+            "description": "Must hold an Advanced Certificate in an IT field."
           }
         ]
       }
@@ -103,17 +97,14 @@
         "name": "NSC with Mathematics",
         "requirements": [
           {
-            "type": "school_qualification",
-            "operator": "meets_minimum_admission_requirements",
-            "value": "degree",
-            "description": "Must meet the minimum degree-admission requirements."
+            "type": "NationalSeniorCertificateOrEquivalent",
+            "description": "Requires a National Senior Certificate or equivalent foreign qualification converted by SAQA."
           },
           {
-            "type": "subject_mark",
-            "subject": "pure_mathematics",
-            "operator": "greater_than_or_equal",
-            "value": 50,
-            "description": "Must achieve at least 50% in pure Mathematics."
+            "type": "NationalSeniorCertificateOrEquivalentMark",
+            "subjectTypeName": "Mathematics",
+            "minimum": 50,
+            "description": "Must achieve at least 50% in Mathematics."
           }
         ]
       },
@@ -123,15 +114,12 @@
         "name": "Mathematics Bridging Course",
         "requirements": [
           {
-            "type": "bridging_course_mark",
-            "course": "itversity_mathematics",
-            "operator": "greater_than_or_equal",
-            "value": 70,
+            "type": "BridgingCourse",
+            "minimum": 70,
             "description": "Must achieve at least 70% in the Belgium Campus iTversity Mathematics Bridging Course."
           },
           {
-            "type": "discretionary_approval",
-            "value": true,
+            "type": "HasBridgingCourseTemporaryExemption",
             "description": "Temporary Senate Discretionary Exemption is required."
           }
         ]
@@ -142,10 +130,8 @@
         "name": "360-credit Diploma",
         "requirements": [
           {
-            "type": "prior_qualification",
-            "qualification_level": "diploma",
-            "minimum_credits": 360,
-            "field": "information_technology",
+            "type": "Diploma",
+            "minimum": 360,
             "description": "Must hold a 360-credit Diploma in an IT field."
           }
         ]
@@ -156,9 +142,7 @@
         "name": "Advanced Diploma",
         "requirements": [
           {
-            "type": "prior_qualification",
-            "qualification_level": "advanced_diploma",
-            "field": "information_technology",
+            "type": "AdvancedDiploma",
             "description": "Must hold an Advanced Diploma in an IT field."
           }
         ]
@@ -169,10 +153,8 @@
         "name": "360-credit Bachelor's Degree",
         "requirements": [
           {
-            "type": "prior_qualification",
-            "qualification_level": "bachelor_degree",
-            "minimum_credits": 360,
-            "field": "information_technology",
+            "type": "BachelorDegree",
+            "minimum": 360,
             "description": "Must hold a 360-credit Bachelor's Degree in an IT field."
           }
         ]

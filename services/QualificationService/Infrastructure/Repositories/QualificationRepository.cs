@@ -15,8 +15,9 @@ public class QualificationRepository : IQualificationRepository
 
         var data = await JsonSerializer.DeserializeAsync<List<Qualification>>(stream, new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
-            },
+                PropertyNameCaseInsensitive = true,
+                Converters = { new JsonStringEnumConverter() }
+        },
             token);
 
         return data ?? [];
