@@ -8,10 +8,12 @@ builder.Services.Configure<RouteOptions>(options =>
 });
 
 //Services
-builder.Services.AddScoped<IEligibilityAssessmentService, AssessmentService.Infrastructure.Services.EligibilityAssessmentService>();
+builder.Services.AddScoped<IEligibilityAssessmentService, EligibilityAssessmentService>();
+builder.Services.AddScoped<IProspectService, ProspectService>();
 
 //Repositories
 builder.Services.AddScoped<IEligibilityAssessmentRepository, EligibilityAssessmentRepository>();
+builder.Services.AddScoped<IProspectRepository, ProspectRepository>();
 
 //Clients
 builder.Services.AddScoped<IQualificationServiceClient, QualificationServiceClient>();

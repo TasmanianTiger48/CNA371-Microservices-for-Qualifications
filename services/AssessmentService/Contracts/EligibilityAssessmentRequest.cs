@@ -2,4 +2,5 @@
 
 public class EligibilityAssessmentRequest
 {
+    public Prospect Prospect { get; set; }
 }

@@ -13,8 +13,20 @@ public class EligibilityAssessmentService : IEligibilityAssessmentService
 
     public async Task<EligibilityAssessmentDto?> CreateEligibilityAssessment(EligibilityAssessmentRequest request, CancellationToken token)
     {
-        var qualification = await _qualificationServiceClient.AssessAsync(request, token);
-        return qualification?.ToDto();
+        var eligibilityAssessment = new EligibilityAssessment()
+        {
+            Identifier = Guid.NewGuid(),
+            Prospect = request.Prospect,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var qualificationEligibilityResults = await _qualificationServiceClient.AssessAsync(request, token);
+
+        eligibilityAssessment.Qualifications = qualificationEligibilityResults.Select(x => x.ToDomain()).ToList();
+
+        await _assessmentRepository.CreateEligibilityAssessment(eligibilityAssessment, token);
+
+        return eligibilityAssessment.ToDto();
     }
 
     public async Task<IEnumerable<EligibilityAssessmentDto>> GetAllEligibilityAssessments(CancellationToken token)

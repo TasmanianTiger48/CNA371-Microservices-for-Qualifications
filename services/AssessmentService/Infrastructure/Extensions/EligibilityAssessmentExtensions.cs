@@ -7,21 +7,49 @@ public static class EligibilityAssessmentExtensions
         return new QualificationAssessmentRequest();
     }
 
-    public static EligibilityAssessmentDto ToDto(this List<QualificationAssessmentResponse> response)
+    public static EligibilityAssessment ToDomain(this List<QualificationAssessmentResponse> response, EligibilityAssessment eligibilityAssessment)
     {
-        return new EligibilityAssessmentDto()
+        return new EligibilityAssessment()
         {
-            Qualifications = response.Select(x => x.ToDto()).ToList()
+            Identifier = eligibilityAssessment.Identifier,
+            CreatedAt = eligibilityAssessment.CreatedAt,
+            Prospect = eligibilityAssessment.Prospect,
+            Qualifications = response.Select(x => x.ToDomain()).ToList()
         };
     }
 
-    public static EligibilityAssessmentQualificationDto ToDto(this QualificationAssessmentResponse response)
+    public static EligibilityAssessmentQualification ToDomain(this QualificationAssessmentResponse response)
     {
-        return new EligibilityAssessmentQualificationDto();
+        return new EligibilityAssessmentQualification()
+        {
+            QualificationIdentifier = response.QualificationIdentifier,
+            QualificationCode = response.QualificationCode,
+            QualificationName = response.QualificationName,
+            IsEligible = response.IsEligible,
+            Reasons = response.Reasons
+        };
     }
 
     public static EligibilityAssessmentDto ToDto(this EligibilityAssessment assessment)
     {
-        return new EligibilityAssessmentDto();
+        return new EligibilityAssessmentDto()
+        {
+            Identifier = assessment.Identifier,
+            CreatedAt = assessment.CreatedAt,
+            Prospect = assessment.Prospect,
+            Qualifications = assessment.Qualifications.Select(x => x.ToDto()).ToList()
+        };
+    }
+
+    public static EligibilityAssessmentQualificationDto ToDto(this EligibilityAssessmentQualification qualification)
+    {
+        return new EligibilityAssessmentQualificationDto()
+        {
+            QualificationIdentifier = qualification.QualificationIdentifier,
+            QualificationCode = qualification.QualificationCode,
+            QualificationName = qualification.QualificationName,
+            IsEligible = qualification.IsEligible,
+            Reasons = qualification.Reasons
+        };
     }
 }

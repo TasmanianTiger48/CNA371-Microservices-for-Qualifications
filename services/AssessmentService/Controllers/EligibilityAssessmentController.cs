@@ -12,30 +12,26 @@ public class EligibilityAssessmentController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAssessments(CancellationToken token)
+    public async Task<IActionResult> GetAssessments(CancellationToken token)
     {
-        var assessments = _assessmentService.GetAllEligibilityAssessments(token);
+        var assessments = await _assessmentService.GetAllEligibilityAssessments(token);
         return Ok(assessments);
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetAssessmentById(int id, CancellationToken token)
+    public async Task<IActionResult> GetAssessmentById(int id, CancellationToken token)
     {
-        var assessment = _assessmentService.GetEligibilityAssessmentById(id, token);
-        if (assessment == null)
-        {
-            return NotFound();
-        }
-        return Ok(assessment);
+        var assessment = await _assessmentService.GetEligibilityAssessmentById(id, token);
+        return assessment == null ? NotFound() : Ok(assessment);
     }
 
     [HttpPost]
-    public IActionResult CreateAssessment([FromBody] EligibilityAssessmentRequest request, CancellationToken token)
+    public async Task<IActionResult> CreateAssessment([FromBody] EligibilityAssessmentRequest request, CancellationToken token)
     {
         if (request == null)
             return BadRequest();
 
-        var createdAssessment = _assessmentService.CreateEligibilityAssessment(request, token);
+        var createdAssessment = await _assessmentService.CreateEligibilityAssessment(request, token);
         return createdAssessment == null ? NoContent() : Ok(createdAssessment);
     }
 }

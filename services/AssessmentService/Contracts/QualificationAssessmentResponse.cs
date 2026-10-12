@@ -9,4 +9,6 @@ public class QualificationAssessmentResponse
     public string QualificationCode { get; set; } = string.Empty;
 
     public string QualificationName { get; set; } = string.Empty;
+
+    public List<string> Reasons { get; set; } = [];
 }
