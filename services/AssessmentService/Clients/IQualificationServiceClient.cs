@@ -4,5 +4,5 @@ namespace AssessmentService.Clients;
 
 public interface IQualificationServiceClient
 {
-    Task<List<QualificationAssessmentResponse>> AssessAsync(EligibilityAssessmentRequest request, CancellationToken token);
+    Task<List<QualificationAssessmentResponse>> AssessAsync(QualificationAssessmentRequest request, CancellationToken token);
 }

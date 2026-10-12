@@ -9,10 +9,10 @@ public class QualificationServiceClient : IQualificationServiceClient
         _httpClient = httpClient;
     }
 
-    public async Task<List<QualificationAssessmentResponse>> AssessAsync(EligibilityAssessmentRequest request, CancellationToken token)
+    public async Task<List<QualificationAssessmentResponse>> AssessAsync(QualificationAssessmentRequest request, CancellationToken token)
     {
         var response = await _httpClient.PostAsJsonAsync(
-            "/qualifications/assess",
+            "qualifications/assess",
             request,
             token);
 

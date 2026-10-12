@@ -10,5 +10,5 @@ public class QualificationAssessmentResponse
 
     public string QualificationName { get; set; } = string.Empty;
 
-    public List<string> Reasons { get; set; } = [];
+    public List<List<string>> ReasonsPerPathway { get; set; } = [];
 }

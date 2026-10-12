@@ -4,7 +4,13 @@ public static class EligibilityAssessmentExtensions
 {
     public static QualificationAssessmentRequest ToQualificationAssessmentRequest(this EligibilityAssessmentRequest request)
     {
-        return new QualificationAssessmentRequest();
+        return new QualificationAssessmentRequest()
+        {
+            HasNationalSeniorCertificateOrEquivalent = request.HasNationalSeniorCertificateOrEquivalent,
+            NationalSeniorCertificateOrEquivalentSubjects = request.NationalSeniorCertificateOrEquivalentSubjects,
+            CompletedQualifications = request.CompletedQualifications,
+            HasBridgingCourseTemporaryExemption = request.HasBridgingCourseTemporaryExemption
+        };
     }
 
     public static EligibilityAssessment ToDomain(this List<QualificationAssessmentResponse> response, EligibilityAssessment eligibilityAssessment)
@@ -26,7 +32,7 @@ public static class EligibilityAssessmentExtensions
             QualificationCode = response.QualificationCode,
             QualificationName = response.QualificationName,
             IsEligible = response.IsEligible,
-            Reasons = response.Reasons
+            ReasonsPerPathway = response.ReasonsPerPathway
         };
     }
 
@@ -49,7 +55,7 @@ public static class EligibilityAssessmentExtensions
             QualificationCode = qualification.QualificationCode,
             QualificationName = qualification.QualificationName,
             IsEligible = qualification.IsEligible,
-            Reasons = qualification.Reasons
+            ReasonsPerPathway = qualification.ReasonsPerPathway
         };
     }
 }

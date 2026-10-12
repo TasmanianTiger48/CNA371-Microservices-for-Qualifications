@@ -20,7 +20,7 @@ public class EligibilityAssessmentService : IEligibilityAssessmentService
             CreatedAt = DateTime.UtcNow
         };
 
-        var qualificationEligibilityResults = await _qualificationServiceClient.AssessAsync(request, token);
+        var qualificationEligibilityResults = await _qualificationServiceClient.AssessAsync(request.ToQualificationAssessmentRequest(), token);
 
         eligibilityAssessment.Qualifications = qualificationEligibilityResults.Select(x => x.ToDomain()).ToList();
 
