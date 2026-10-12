@@ -8,10 +8,10 @@ builder.Services.Configure<RouteOptions>(options =>
 });
 
 //Services
-builder.Services.AddScoped<IAssessmentService, AssessmentService.Infrastructure.Services.AssessmentService>();
+builder.Services.AddScoped<IEligibilityAssessmentService, AssessmentService.Infrastructure.Services.EligibilityAssessmentService>();
 
 //Repositories
-builder.Services.AddScoped<IAssessmentRepository, AssessmentRepository>();
+builder.Services.AddScoped<IEligibilityAssessmentRepository, EligibilityAssessmentRepository>();
 
 //Clients
 builder.Services.AddScoped<IQualificationServiceClient, QualificationServiceClient>();
@@ -19,14 +19,19 @@ builder.Services.AddScoped<IQualificationServiceClient, QualificationServiceClie
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
+builder.Services.AddHttpClient<IQualificationServiceClient, QualificationServiceClient>(client =>
+{
+    var baseUrl = builder.Configuration["Services:QualificationService"];
+
+    client.BaseAddress = new Uri(
+        baseUrl ?? throw new InvalidOperationException(
+            "Qualification Service URL is not configured."));
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.MapScalarApiReference();
-}
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
 

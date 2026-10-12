@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\Models\" />
     <Folder Include="Domain\Enums\" />
   </ItemGroup>
 
