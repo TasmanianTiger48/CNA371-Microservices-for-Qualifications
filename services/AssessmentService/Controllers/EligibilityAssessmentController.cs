@@ -19,7 +19,7 @@ public class EligibilityAssessmentController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAssessmentById(int id, CancellationToken token)
+    public async Task<IActionResult> GetAssessmentById(Guid id, CancellationToken token)
     {
         var assessment = await _assessmentService.GetEligibilityAssessmentById(id, token);
         return assessment == null ? NotFound() : Ok(assessment);

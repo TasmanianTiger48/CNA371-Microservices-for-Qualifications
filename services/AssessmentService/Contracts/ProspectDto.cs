@@ -2,7 +2,7 @@
 
 public class ProspectDto
 {
-    public Guid Identifier { get; set; }
+    public Guid? Identifier { get; set; }
 
     public string FirstName { get; set; } = string.Empty;
 

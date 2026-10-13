@@ -6,3 +6,6 @@ global using AssessmentService.Clients;
 global using AssessmentService.Infrastructure.Extensions;
 global using AssessmentService.Domain.Models;
 global using AssessmentService.Infrastructure.Services;
+global using System.Text.Json;
+global using StackExchange.Redis;
+global using AssessmentService.Infrastructure.Constants;

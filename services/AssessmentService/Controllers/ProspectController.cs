@@ -15,14 +15,14 @@ public class ProspectController : ControllerBase
     public async Task<IActionResult> GetProspectById(Guid id, CancellationToken token)
     {
         var prospect = await _prospectService.GetProspectById(id, token);
-        return prospect == null ? NotFound() : Ok(prospect);
+        return prospect == null ? NoContent() : Ok(prospect);
     }
 
     [HttpGet("email/{email}")]
     public async Task<IActionResult> GetProspectByEmail(string email, CancellationToken token)
     {
         var prospect = await _prospectService.GetProspectByEmail(email, token);
-        return prospect == null ? NotFound() : Ok(prospect);
+        return prospect == null ? NoContent() : Ok(prospect);
     }
 
     [HttpPost]

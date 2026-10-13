@@ -1,23 +1,37 @@
-﻿namespace AssessmentService.Infrastructure.Repositories;
+namespace AssessmentService.Infrastructure.Repositories;
 
 public class EligibilityAssessmentRepository : IEligibilityAssessmentRepository
 {
-    public EligibilityAssessmentRepository()
+    private readonly IDatabase _database;
+
+    public EligibilityAssessmentRepository(IConnectionMultiplexer redis)
     {
+        _database = redis.GetDatabase();
     }
 
-    public Task CreateEligibilityAssessment(EligibilityAssessment assessment, CancellationToken token)
+    public async Task CreateEligibilityAssessment(EligibilityAssessment assessment, CancellationToken token)
     {
-        return Task.CompletedTask;
+        await _database.StringSetAsync(InfrastructureConstants.AssessmentKey(assessment.Identifier), JsonSerializer.Serialize(assessment));
+        await _database.SetAddAsync(InfrastructureConstants.AssessmentsKey, assessment.Identifier.ToString());
     }
 
     public async Task<IEnumerable<EligibilityAssessment>> GetAllEligibilityAssessments(CancellationToken token)
     {
-        return [];
+        var ids = await _database.SetMembersAsync(InfrastructureConstants.AssessmentsKey);
+        if (ids.Length == 0)
+            return [];
+
+        var values = await _database.StringGetAsync(ids.Select(id => (RedisKey)InfrastructureConstants.AssessmentKey(id!)).ToArray());
+
+        return values
+            .Where(value => value.HasValue)
+            .Select(value => JsonSerializer.Deserialize<EligibilityAssessment>(value.ToString())!)
+            .ToList();
     }
 
-    public async Task<EligibilityAssessment?> GetEligibilityAssessmentById(int id, CancellationToken token)
+    public async Task<EligibilityAssessment?> GetEligibilityAssessmentById(Guid identifier, CancellationToken token)
     {
-        return new EligibilityAssessment();
+        var value = await _database.StringGetAsync(InfrastructureConstants.AssessmentKey(identifier));
+        return value.HasValue ? JsonSerializer.Deserialize<EligibilityAssessment>(value.ToString()) : null;
     }
 }

@@ -35,9 +35,9 @@ public class EligibilityAssessmentService : IEligibilityAssessmentService
         return assessments.Select(x => x.ToDto());
     }
 
-    public async Task<EligibilityAssessmentDto?> GetEligibilityAssessmentById(int id, CancellationToken token)
+    public async Task<EligibilityAssessmentDto?> GetEligibilityAssessmentById(Guid identifier, CancellationToken token)
     {
-        var assessment = await _assessmentRepository.GetEligibilityAssessmentById(id, token);
+        var assessment = await _assessmentRepository.GetEligibilityAssessmentById(identifier, token);
         return assessment?.ToDto();
     }
 }
