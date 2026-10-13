@@ -1,0 +1,17 @@
+{
+  "hasNationalSeniorCertificateOrEquivalent": true,
+  "nationalSeniorCertificateOrEquivalentSubjects": [
+    {
+      "subjectTypeId": 0,
+      "mark": 60
+    }
+  ],
+  "completedQualifications": [
+    {
+      "qualificationTypeId": 1,
+      "mark": 60,
+      "credits": null
+    }
+  ],
+  "hasBridgingCourseTemporaryExemption": true
+}

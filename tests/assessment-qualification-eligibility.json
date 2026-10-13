@@ -1,0 +1,23 @@
+{
+  "prospect": {
+    "identifier": "4E910F74-E85F-414D-83B2-5A406A6D1CA8",
+    "firstName": "",
+    "lastName": "",
+    "email": ""
+  },
+  "hasNationalSeniorCertificateOrEquivalent": true,
+  "nationalSeniorCertificateOrEquivalentSubjects": [
+    {
+      "subjectTypeId": 0,
+      "mark": 60
+    }
+  ],
+  "completedQualifications": [
+    {
+      "qualificationTypeId": 1,
+      "mark": 60,
+      "credits": null
+    }
+  ],
+  "hasBridgingCourseTemporaryExemption": true
+}
