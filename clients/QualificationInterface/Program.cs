@@ -71,7 +71,7 @@ static async Task RunAssessment(HttpClient httpClient)
     {
         var qualificationTypePrompt = qualificationType == QualificationTypes.BridgingCourse
             ? "Bridging course"
-            : $"{qualificationType} related to an IT";
+            : $"{qualificationType} related to IT";
 
         if (!PromptYesNo($"Have you completed a {qualificationTypePrompt}?"))
             continue;
