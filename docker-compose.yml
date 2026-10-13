@@ -5,11 +5,13 @@ services:
       - "6379:6379"
 
   qualification-service:
+    image: qualification-service
     build: ./services/QualificationService
     ports:
       - "5054:8080"
 
   assessment-service:
+    image: assessment-service
     build: ./services/AssessmentService
     ports:
       - "5000:8080"
@@ -21,6 +23,7 @@ services:
       - qualification-service
 
   qualification-interface:
+    image: qualification-interface
     build: ./clients/QualificationInterface
     stdin_open: true
     tty: true

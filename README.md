@@ -1,1 +1,115 @@
 # CNA371-Microservices-for-Qualifications
+
+A small .NET 10 microservices system that assesses whether a prospective student is eligible for a set of qualifications. A prospect enters their school results and completed qualifications in a console app. The system checks them against each qualification's admission pathways and reports where the prospect is eligible, or which requirements they're missing for each pathway.
+
+## Architecture
+
+```mermaid
+flowchart LR
+    user([Prospect / admin])
+
+    subgraph clients [Clients]
+        ui["QualificationInterface<br/>(console app)"]
+    end
+
+    subgraph services [Services]
+        assessment["AssessmentService<br/>(ASP.NET Core API)"]
+        qualification["QualificationService<br/>(ASP.NET Core API)"]
+    end
+
+    redis[("Redis<br/>assessments & prospects")]
+    data[/"Qualifications.json<br/>qualifications & pathway rules"/]
+
+    user --> ui
+    ui -- "HTTP: create / list / view assessments" --> assessment
+    assessment -- "HTTP: POST /qualifications/assess" --> qualification
+    assessment -- "store & read" --> redis
+    qualification -- "reads" --> data
+```
+
+| Component | Responsibility |
+|---|---|
+| **QualificationInterface** | Interactive console menu: run a new assessment, list all assessments, list a prospect's assessments by email, view one assessment by ID. |
+| **AssessmentService** | Owns prospects and assessments. When an assessment is created it saves the prospect (reusing an existing prospect with the same email), asks the QualificationService to evaluate eligibility, and stores the result in Redis. |
+| **QualificationService** | Owns the qualifications and their admission pathways (in `Qualifications.json`). Evaluates a prospect's results against every pathway and returns, per qualification, whether they're eligible or which requirements each pathway is missing. |
+| **Redis** | Storage for the AssessmentService: assessments, prospects, an email-to-prospect lookup, and the list of assessments for each prospect. |
+
+## Running the system
+
+You need the [.NET 10 SDK](https://dotnet.microsoft.com/download) to run locally, and Docker Desktop for the other two options.
+
+All three options use the same ports on your machine, so run only one at a time.
+
+| | URL |
+|---|---|
+| AssessmentService | http://localhost:5000/scalar/v1 |
+| QualificationService | http://localhost:5054/scalar/v1 |
+| Redis | `localhost:6379` |
+
+### Option 1: Docker Compose
+
+```
+docker compose up -d --build
+docker compose attach qualification-interface
+```
+
+The menu was printed before you attached, so the screen may start blank. Type a menu option and press Enter. To detach and leave the client running, press **Ctrl+P** then **Ctrl+Q**.
+
+Stop everything with `docker compose down`. Redis data is not persisted.
+
+### Option 2: Kubernetes (Docker Desktop)
+
+Needs Kubernetes enabled in Docker Desktop (Settings → Kubernetes). Run these from the repo root in PowerShell:
+
+```
+.\k8s\deploy.ps1    # build the images, load them into the cluster, deploy
+.\k8s\client.ps1    # start an interactive client session (removed on exit)
+```
+
+Everything runs in the `qualifications` namespace. Check on it with `kubectl get pods,svc -n qualifications`, and remove it with `kubectl delete namespace qualifications`.
+
+### Option 3: Locally with `dotnet run`
+
+Start Redis, then each project in its own terminal:
+
+```
+docker run -d -p 6379:6379 redis:7-alpine
+dotnet run --project services/QualificationService --launch-profile http
+dotnet run --project services/AssessmentService --launch-profile http
+dotnet run --project clients/QualificationInterface
+```
+
+## API overview
+
+**AssessmentService**
+
+| Method | Route | Description |
+|---|---|---|
+| `POST` | `/eligibilityassessment` | Run and store a new assessment |
+| `GET` | `/eligibilityassessment` | List all assessments |
+| `GET` | `/eligibilityassessment/{id}` | Get one assessment |
+| `GET` | `/eligibilityassessment/prospect/{email}` | List a prospect's assessments |
+| `POST` | `/prospect` | Create or update a prospect |
+| `GET` | `/prospect/{id}` | Get a prospect by ID |
+| `GET` | `/prospect/email/{email}` | Get a prospect by email |
+
+**QualificationService**
+
+| Method | Route | Description |
+|---|---|---|
+| `GET` | `/qualifications` | List qualifications |
+| `GET` | `/qualifications/{id}` | Get one qualification |
+| `POST` | `/qualifications/assess` | Evaluate eligibility for all qualifications |
+
+The `tests/` folder has sample request bodies for `POST /eligibilityassessment` and `POST /qualifications/assess`.
+
+## Repository layout
+
+```
+clients/QualificationInterface   console client
+services/AssessmentService       assessments & prospects API (Redis)
+services/QualificationService    qualifications & eligibility rules API
+k8s/                             Kubernetes manifests and deploy/client scripts
+tests/                           sample request payloads
+docker-compose.yml               full stack for Docker Compose
+```

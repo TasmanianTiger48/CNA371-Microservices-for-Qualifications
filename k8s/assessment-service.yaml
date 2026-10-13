@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: assessment-service
+data:
+  ConnectionStrings__Redis: redis:6379
+  Services__QualificationService: http://qualification-service:5054
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: assessment-service
+spec:
+  selector:
+    matchLabels:
+      app: assessment-service
+  template:
+    metadata:
+      labels:
+        app: assessment-service
+    spec:
+      containers:
+        - name: assessment-service
+          image: assessment-service:latest
+          imagePullPolicy: Never
+          envFrom:
+            - configMapRef:
+                name: assessment-service
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: assessment-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: assessment-service
+  ports:
+    - port: 5000
+      targetPort: 8080

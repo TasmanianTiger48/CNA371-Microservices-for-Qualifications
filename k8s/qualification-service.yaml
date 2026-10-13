@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qualification-service
+spec:
+  selector:
+    matchLabels:
+      app: qualification-service
+  template:
+    metadata:
+      labels:
+        app: qualification-service
+    spec:
+      containers:
+        - name: qualification-service
+          image: qualification-service:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qualification-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: qualification-service
+  ports:
+    - port: 5054
+      targetPort: 8080
