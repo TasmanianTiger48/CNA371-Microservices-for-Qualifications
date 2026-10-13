@@ -1,21 +1,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
-
-COPY ["QualificationService.csproj", "./"]
-RUN dotnet restore "QualificationService.csproj"
-
+COPY QualificationService.csproj .
+RUN dotnet restore
 COPY . .
-RUN dotnet publish "QualificationService.csproj" \
-    -c Release \
-    -o /app/publish \
-    /p:UseAppHost=false
+RUN dotnet publish -c Release -o /app --no-restore
 
-FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
-
-COPY --from=build /app/publish .
-
-# Run as a non-root user
+COPY --from=build /app .
 USER $APP_UID
-
 ENTRYPOINT ["dotnet", "QualificationService.dll"]
