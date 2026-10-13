@@ -13,11 +13,30 @@ public class EligibilityAssessmentRepository : IEligibilityAssessmentRepository
     {
         await _database.StringSetAsync(InfrastructureConstants.AssessmentKey(assessment.Identifier), JsonSerializer.Serialize(assessment));
         await _database.SetAddAsync(InfrastructureConstants.AssessmentsKey, assessment.Identifier.ToString());
+
+        if (assessment.Prospect != null)
+            await _database.SetAddAsync(InfrastructureConstants.ProspectAssessmentsKey(assessment.Prospect.Identifier), assessment.Identifier.ToString());
     }
 
     public async Task<IEnumerable<EligibilityAssessment>> GetAllEligibilityAssessments(CancellationToken token)
     {
-        var ids = await _database.SetMembersAsync(InfrastructureConstants.AssessmentsKey);
+        return await GetEligibilityAssessments(InfrastructureConstants.AssessmentsKey);
+    }
+
+    public async Task<IEnumerable<EligibilityAssessment>> GetEligibilityAssessmentsByProspect(Guid prospectIdentifier, CancellationToken token)
+    {
+        return await GetEligibilityAssessments(InfrastructureConstants.ProspectAssessmentsKey(prospectIdentifier));
+    }
+
+    public async Task<EligibilityAssessment?> GetEligibilityAssessmentById(Guid identifier, CancellationToken token)
+    {
+        var value = await _database.StringGetAsync(InfrastructureConstants.AssessmentKey(identifier));
+        return value.HasValue ? JsonSerializer.Deserialize<EligibilityAssessment>(value.ToString()) : null;
+    }
+
+    private async Task<IEnumerable<EligibilityAssessment>> GetEligibilityAssessments(string setKey)
+    {
+        var ids = await _database.SetMembersAsync(setKey);
         if (ids.Length == 0)
             return [];
 
@@ -27,11 +46,5 @@ public class EligibilityAssessmentRepository : IEligibilityAssessmentRepository
             .Where(value => value.HasValue)
             .Select(value => JsonSerializer.Deserialize<EligibilityAssessment>(value.ToString())!)
             .ToList();
-    }
-
-    public async Task<EligibilityAssessment?> GetEligibilityAssessmentById(Guid identifier, CancellationToken token)
-    {
-        var value = await _database.StringGetAsync(InfrastructureConstants.AssessmentKey(identifier));
-        return value.HasValue ? JsonSerializer.Deserialize<EligibilityAssessment>(value.ToString()) : null;
     }
 }

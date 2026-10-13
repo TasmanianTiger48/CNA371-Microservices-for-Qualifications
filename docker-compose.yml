@@ -19,3 +19,12 @@ services:
     depends_on:
       - redis
       - qualification-service
+
+  qualification-interface:
+    build: ./clients/QualificationInterface
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    env_file: ./clients/QualificationInterface/.env
+    depends_on:
+      - assessment-service

@@ -7,4 +7,5 @@ public static class InfrastructureConstants
 
     public static string ProspectKey(Guid identifier) => $"prospect:{identifier}";
     public static string ProspectEmailKey(string email) => $"prospect-email:{email.Trim().ToLowerInvariant()}";
+    public static string ProspectAssessmentsKey(Guid identifier) => $"prospect-eligibility-assessments:{identifier}";
 }

@@ -3,20 +3,24 @@
 public class EligibilityAssessmentService : IEligibilityAssessmentService
 {
     IEligibilityAssessmentRepository _assessmentRepository;
+    IProspectRepository _prospectRepository;
     IQualificationServiceClient _qualificationServiceClient;
 
-    public EligibilityAssessmentService(IEligibilityAssessmentRepository assessmentRepository, IQualificationServiceClient qualificationServiceClient)
+    public EligibilityAssessmentService(IEligibilityAssessmentRepository assessmentRepository, IProspectRepository prospectRepository, IQualificationServiceClient qualificationServiceClient)
     {
         _assessmentRepository = assessmentRepository;
+        _prospectRepository = prospectRepository;
         _qualificationServiceClient = qualificationServiceClient;
     }
 
     public async Task<EligibilityAssessmentDto?> CreateEligibilityAssessment(EligibilityAssessmentRequest request, CancellationToken token)
     {
+        var prospect = await _prospectRepository.CreateProspect(request.Prospect.ToDto(), token);
+
         var eligibilityAssessment = new EligibilityAssessment()
         {
             Identifier = Guid.NewGuid(),
-            Prospect = request.Prospect,
+            Prospect = prospect,
             CreatedAt = DateTime.UtcNow
         };
 
@@ -39,5 +43,15 @@ public class EligibilityAssessmentService : IEligibilityAssessmentService
     {
         var assessment = await _assessmentRepository.GetEligibilityAssessmentById(identifier, token);
         return assessment?.ToDto();
+    }
+
+    public async Task<IEnumerable<EligibilityAssessmentDto>?> GetEligibilityAssessmentsByProspectEmail(string email, CancellationToken token)
+    {
+        var prospect = await _prospectRepository.GetProspectByEmail(email, token);
+        if (prospect == null)
+            return null;
+
+        var assessments = await _assessmentRepository.GetEligibilityAssessmentsByProspect(prospect.Identifier, token);
+        return assessments.Select(x => x.ToDto());
     }
 }

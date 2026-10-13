@@ -25,6 +25,13 @@ public class EligibilityAssessmentController : ControllerBase
         return assessment == null ? NotFound() : Ok(assessment);
     }
 
+    [HttpGet("prospect/{email}")]
+    public async Task<IActionResult> GetAssessmentsByProspect(string email, CancellationToken token)
+    {
+        var assessments = await _assessmentService.GetEligibilityAssessmentsByProspectEmail(email, token);
+        return assessments == null ? NotFound() : Ok(assessments);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateAssessment([FromBody] EligibilityAssessmentRequest request, CancellationToken token)
     {
