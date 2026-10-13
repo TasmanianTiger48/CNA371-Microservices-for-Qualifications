@@ -8,4 +8,6 @@ public enum SubjectTypes
     Accounting,
     BusinessStudies,
     Economics,
+    EnglishHomeLanguage,
+    EnglishFirstAdditionalLanguage,
 }

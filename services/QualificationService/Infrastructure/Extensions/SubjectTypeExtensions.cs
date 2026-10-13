@@ -12,6 +12,8 @@ public static class SubjectTypeExtensions
             "Accounting" => SubjectTypes.Accounting,
             "Business Studies" => SubjectTypes.BusinessStudies,
             "Economics" => SubjectTypes.Economics,
+            "English Home Language" => SubjectTypes.EnglishHomeLanguage,
+            "English First Additional Language" => SubjectTypes.EnglishFirstAdditionalLanguage,
             _ => null
         };
     }

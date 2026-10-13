@@ -29,9 +29,9 @@ flowchart LR
 
 | Component | Responsibility |
 |---|---|
-| **QualificationInterface** | Interactive console menu: run a new assessment, list all assessments, list a prospect's assessments by email, view one assessment by ID. |
-| **AssessmentService** | Owns prospects and assessments. When an assessment is created it saves the prospect (reusing an existing prospect with the same email), asks the QualificationService to evaluate eligibility, and stores the result in Redis. |
-| **QualificationService** | Owns the qualifications and their admission pathways (in `Qualifications.json`). Evaluates a prospect's results against every pathway and returns, per qualification, whether they're eligible or which requirements each pathway is missing. |
+| **QualificationInterface** | Interactive console menu: run a new assessment, list all assessments, list a prospect's assessments by email, view one assessment by ID, or clear the screen. |
+| **AssessmentService** | Owns prospects and assessments. When an assessment is created it saves the prospect (reusing an existing prospect with the same email and updating their name), asks the QualificationService to evaluate eligibility, and stores the result in Redis. |
+| **QualificationService** | Owns the qualifications and their admission pathways (in `Qualifications.json`): the Diploma in Information Technology (DIT), Bachelor of Information Technology (BIT) and Bachelor of Computing (BCOMP). Evaluates a prospect's results against every pathway and returns, per qualification, whether they're eligible or which requirements each pathway is missing. |
 | **Redis** | Storage for the AssessmentService: assessments, prospects, an email-to-prospect lookup, and the list of assessments for each prospect. |
 
 ## Running the system
@@ -66,7 +66,17 @@ Needs Kubernetes enabled in Docker Desktop (Settings → Kubernetes). The cluste
 .\k8s\client.ps1    # start an interactive client session (removed on exit)
 ```
 
-Everything runs in the `qualifications` namespace. Check on it with `kubectl get pods,svc -n qualifications`, and remove it with `kubectl delete namespace qualifications`.
+Choose **0** to exit the client. The pod is then removed. If the session is cut off without exiting (for example, you close the terminal), the client pod keeps running. Reconnect to it with:
+
+```
+.\k8s\client-resume.ps1
+```
+
+As with Docker Compose, the menu may not be on screen when you reconnect. Type an option and press Enter. While a leftover pod is running, `client.ps1` can't start a new one. Exit the leftover client first, or remove it with `kubectl delete pod qualification-interface -n qualifications`.
+
+Everything runs in the `qualifications` namespace. Check on it with `kubectl get pods,svc -n qualifications`, and remove it with `kubectl delete namespace qualifications`. Redis data is not persisted here either.
+
+The manifests always use the `latest` image tags. If you set `TAG` (see below), `deploy.ps1` builds and pushes that tag, but the cluster still runs `latest`.
 
 ### Option 3: Locally with `dotnet run`
 
@@ -78,6 +88,8 @@ dotnet run --project services/QualificationService --launch-profile http
 dotnet run --project services/AssessmentService --launch-profile http
 dotnet run --project clients/QualificationInterface
 ```
+
+The client connects to `http://localhost:5000` by default. To point it at another AssessmentService, pass the URL as the first argument or set `ASSESSMENT_SERVICE_URL`. Docker Compose sets it from `clients/QualificationInterface/.env`.
 
 ## Publishing to Docker Hub
 

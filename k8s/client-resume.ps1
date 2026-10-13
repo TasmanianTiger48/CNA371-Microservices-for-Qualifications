@@ -1,0 +1,1 @@
+kubectl attach qualification-interface -c qualification-interface -n qualifications -i -t
