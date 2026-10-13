@@ -10,5 +10,5 @@ public class EligibilityAssessmentQualificationDto
 
     public bool IsEligible { get; set; }
 
-    public List<List<string>> ReasonsPerPathway { get; set; } = [];
+    public List<PathwayDto> ReasonsPerPathway { get; set; } = [];
 }
