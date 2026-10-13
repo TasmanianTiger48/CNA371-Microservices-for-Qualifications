@@ -69,10 +69,16 @@ static async Task RunAssessment(HttpClient httpClient)
 
     foreach (var qualificationType in Enum.GetValues<QualificationTypes>())
     {
-        if (!PromptYesNo($"Have you completed a {qualificationType}?"))
+        var qualificationTypePrompt = qualificationType == QualificationTypes.BridgingCourse
+            ? "Bridging course"
+            : $"{qualificationType} related to an IT";
+
+        if (!PromptYesNo($"Have you completed a {qualificationTypePrompt}?"))
             continue;
 
-        request.CompletedQualifications.Add(qualificationType == QualificationTypes.BridgingCourse
+        var isBridgingCourse = qualificationType == QualificationTypes.BridgingCourse;
+
+        request.CompletedQualifications.Add(isBridgingCourse
             ? new EligibilityAssessmentRequestCompletedQualification
             {
                 QualificationTypeId = (int)qualificationType,
@@ -83,9 +89,12 @@ static async Task RunAssessment(HttpClient httpClient)
                 QualificationTypeId = (int)qualificationType,
                 Credits = PromptNumber("  Credits")
             });
-    }
 
-    request.HasBridgingCourseTemporaryExemption = PromptYesNo("Do you have a Temporary Senate Discretionary Exemption?");
+        if (isBridgingCourse)
+        {
+            request.HasBridgingCourseTemporaryExemption = PromptYesNo("  Do you have a Senate Discretionary Temporary Exemption?");
+        }
+    }
 
     var response = await httpClient.PostAsJsonAsync("/eligibilityassessment", request);
 
@@ -168,8 +177,8 @@ static void PrintAssessment(EligibilityAssessmentDto assessment)
 
         for (var i = 0; i < qualification.ReasonsPerPathway.Count; i++)
         {
-            Console.WriteLine($"    Pathway {i + 1}:");
-            foreach (var reason in qualification.ReasonsPerPathway[i])
+            Console.WriteLine($"    Pathway {i + 1}: {qualification.ReasonsPerPathway[i].PathwayName} ({qualification.ReasonsPerPathway[i].PathwayCode})");
+            foreach (var reason in qualification.ReasonsPerPathway[i].Reasons)
                 Console.WriteLine($"      - {reason}");
         }
     }

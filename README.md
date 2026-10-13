@@ -59,10 +59,10 @@ Stop everything with `docker compose down`. Redis data is not persisted.
 
 ### Option 2: Kubernetes (Docker Desktop)
 
-Needs Kubernetes enabled in Docker Desktop (Settings → Kubernetes). Run these from the repo root in PowerShell:
+Needs Kubernetes enabled in Docker Desktop (Settings → Kubernetes). The cluster pulls the images from Docker Hub, so the deploy script publishes them first (see [Publishing to Docker Hub](#publishing-to-docker-hub)). Run these from the repo root in PowerShell after `docker login`:
 
 ```
-.\k8s\deploy.ps1    # build the images, load them into the cluster, deploy
+.\k8s\deploy.ps1    # build, push to Docker Hub, deploy and restart the pods
 .\k8s\client.ps1    # start an interactive client session (removed on exit)
 ```
 
@@ -77,6 +77,24 @@ docker run -d -p 6379:6379 redis:7-alpine
 dotnet run --project services/QualificationService --launch-profile http
 dotnet run --project services/AssessmentService --launch-profile http
 dotnet run --project clients/QualificationInterface
+```
+
+## Publishing to Docker Hub
+
+The images are published as `ryandewet577645/qualification-service`, `ryandewet577645/assessment-service` and `ryandewet577645/qualification-interface`. Redis uses the official image.
+
+```
+docker login
+docker compose build
+docker compose push
+```
+
+The tag defaults to `latest`. To publish a version, set `TAG` first, for example in PowerShell:
+
+```
+$env:TAG = "1.0.0"
+docker compose build
+docker compose push
 ```
 
 ## API overview

@@ -18,7 +18,7 @@ public class QualificationService : IQualificationService
         foreach (var qualification in qualifications)
         {
             var anyPathwayEligible = false;
-            List<List<string>> missingRequirementsPerPathway = [];
+            List<PathwayDto> missingRequirementsPerPathway = [];
             foreach (var admissionPathway in qualification.Pathways)
             {
                 var isEligible = true;
@@ -78,7 +78,12 @@ public class QualificationService : IQualificationService
                 }
                 else
                 {
-                    missingRequirementsPerPathway.Add(missingPathwayRequirements);
+                    missingRequirementsPerPathway.Add(new PathwayDto
+                    {
+                        PathwayCode = admissionPathway.Code,
+                        PathwayName = admissionPathway.Name,
+                        Reasons = missingPathwayRequirements
+                    });
                 }
             }
 

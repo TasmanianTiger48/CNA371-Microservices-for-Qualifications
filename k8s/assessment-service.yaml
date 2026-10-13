@@ -21,8 +21,8 @@ spec:
     spec:
       containers:
         - name: assessment-service
-          image: assessment-service:latest
-          imagePullPolicy: Never
+          image: ryandewet577645/assessment-service:latest
+          imagePullPolicy: Always
           envFrom:
             - configMapRef:
                 name: assessment-service

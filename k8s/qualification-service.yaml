@@ -13,8 +13,8 @@ spec:
     spec:
       containers:
         - name: qualification-service
-          image: qualification-service:latest
-          imagePullPolicy: Never
+          image: ryandewet577645/qualification-service:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
 ---
