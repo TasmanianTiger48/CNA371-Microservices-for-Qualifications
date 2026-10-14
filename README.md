@@ -109,6 +109,8 @@ docker compose build
 docker compose push
 ```
 
+To run the published images on another machine without the source code, see [Running the system on another machine from Docker Hub](docs/how-to-run-using-docker-hub.md).
+
 ## API overview
 
 **AssessmentService**
@@ -139,6 +141,7 @@ The `tests/` folder has sample request bodies for `POST /eligibilityassessment` 
 clients/QualificationInterface   console client
 services/AssessmentService       assessments & prospects API (Redis)
 services/QualificationService    qualifications & eligibility rules API
+docs/                            additional guides
 k8s/                             Kubernetes manifests and deploy/client scripts
 tests/                           sample request payloads
 docker-compose.yml               full stack for Docker Compose
